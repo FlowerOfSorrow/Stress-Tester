@@ -11,37 +11,35 @@ void check_status(int status, const string &where){
 
 int main(int argc, char *argv[]){
 	cin.tie(0)->sync_with_stdio(0);
-	const double TIME_LIMIT = 10.0;
 	string sol = argv[1], checker = argv[2];
 	cout << "Print the results? Type (y) or (n): ";
 	cout.flush();
 	char X;
 	cin >> X;
 	for(auto i = 0; ; ++ i){
-		check_status(system("./gen>./in"), "Generator");
+		check_status(system("./gen > ./in"), "Generator");
 		auto p1 = high_resolution_clock::now();
-		check_status(system(("./" + sol + "<./in>./stress/out_bad").c_str()), "Bad Sol");
+		check_status(system(("./" + sol + " < ./in >. /stress/out_a").c_str()), sol);
 		auto p2 = high_resolution_clock::now();
-		check_status(system(("printf \"\\n\" | cat ./in - ./stress/out_bad | ./" + checker + ">./stress/_res").c_str()), "Checker");
-		ifstream _res("./stress/_res"), badin("./stress/out_bad");
+		check_status(system(("(cat ./in; printf \"\\n\"; cat ./stress/out_al) | ./" + checker + " > ./stress/res").c_str()), checker);
+		ifstream in_res("./stress/res"), in_a("./stress/out_a");
 		int res;
-		_res >> res;
-		vector<string> bad;
-		for(string t; badin >> t; bad.push_back(t));
+		in_res >> res;
+		vector<string> a;
+		for(string t; in_a >> t; a.push_back(t));
 		cout << "Case #" << i << "\n";
 		cout << sol << ": " << duration<double>(p2 - p1).count() << " seconds" << endl;
-		if(!res || duration<double>(p2 - p1).count() > TIME_LIMIT){
-			if(!res) cout << "WRONG ANSWER\n";
-			else cout << "TIME LIMIT EXCEEDED\n";
+		if(!res){
+			cout << "WRONG ANSWER\n";
 			cout << sol << ": ";
-			for(auto s: bad) cout << s << " ";
+			for(auto s: a) cout << s << " ";
 			cout << "\n";
 			break;
 		}
 		cout << "Ok\n";
 		if(X == 'y'){
 			cout << sol << ": ";
-			for(auto s: bad) cout << s << " ";
+			for(auto s: a) cout << s << " ";
 			cout << "\n";
 		}
 		cout << endl;

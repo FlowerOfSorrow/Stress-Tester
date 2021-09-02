@@ -11,42 +11,42 @@ void check_status(int status, const string &where){
 
 int main(int argc, char *argv[]){
 	cin.tie(0)->sync_with_stdio(0);
-	string sol_A = argv[1], sol_B = argv[2];
+	string sol_a = argv[1], sol_b = argv[2];
 	cout << "Print the results? Type (y) or (n): ";
 	cout.flush();
 	char X;
 	cin >> X;
 	for(auto i = 0; ; ++ i){
-		check_status(system("./gen>./in"), "Generator");
+		check_status(system("./gen> ./in"), "Generator");
 		auto p1 = high_resolution_clock::now();
-		check_status(system(("./" + sol_A + "<./in>./stress/out_good").c_str()), sol_A);
+		check_status(system(("./" + sol_a + " < ./in > ./stress/out_a").c_str()), sol_a);
 		auto p2 = high_resolution_clock::now();
-		check_status(system(("./" + sol_B + "<./in>./stress/out_bad").c_str()), sol_B);
+		check_status(system(("./" + sol_b + " < ./in > ./stress/out_b").c_str()), sol_b);
 		auto p3 = high_resolution_clock::now();
-		ifstream goodin("./stress/out_good"), badin("./stress/out_bad");
-		vector<string> good, bad;
-		for(string t; goodin >> t; good.push_back(t));
-		for(string t; badin >> t; bad.push_back(t));
+		ifstream in_a("./stress/out_a"), in_b("./stress/out_b");
+		vector<string> a, b;
+		for(string t; in_a >> t; a.push_back(t));
+		for(string t; in_b >> t; b.push_back(t));
 		cout << "Case #" << i << "\n";
-		cout << sol_A << ": " << duration<double>(p2 - p1).count() << " seconds\n";
-		cout << sol_B << ": " << duration<double>(p3 - p2).count() << " seconds" << endl;
-		if(good != bad){
+		cout << sol_a << ": " << duration<double>(p2 - p1).count() << " seconds\n";
+		cout << sol_b << ": " << duration<double>(p3 - p2).count() << " seconds" << endl;
+		if(a != b){
 			cout << "Failed\n";
-			cout << sol_A << ": ";
-			for(auto s: good) cout << s << " ";
+			cout << sol_a << ": ";
+			for(auto s: a) cout << s << " ";
 			cout << "\n";
-			cout << sol_B << ": ";
-			for(auto s: bad) cout << s << " ";
+			cout << sol_b << ": ";
+			for(auto s: b) cout << s << " ";
 			cout << "\n";
 			break;
 		}
 		cout << "Ok\n";
 		if(X == 'y'){
-			cout << sol_A << ": ";
-			for(auto s: good) cout << s << " ";
+			cout << sol_a << ": ";
+			for(auto s: a) cout << s << " ";
 			cout << "\n";
-			cout << sol_B << ": ";
-			for(auto s: bad) cout << s << " ";
+			cout << sol_b << ": ";
+			for(auto s: b) cout << s << " ";
 			cout << "\n";
 		}
 		cout << endl;
