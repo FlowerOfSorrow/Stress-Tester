@@ -19,9 +19,9 @@ int main(int argc, char *argv[]){
 	for(auto i = 0; ; ++ i){
 		check_status(system("./gen > ./in"), "Generator");
 		auto p1 = high_resolution_clock::now();
-		check_status(system(("./" + sol + " < ./in >. /stress/out_a").c_str()), sol);
+		check_status(system(("./" + sol + " < ./in > ./stress/out_a").c_str()), sol);
 		auto p2 = high_resolution_clock::now();
-		check_status(system(("(cat ./in; printf \"\\n\"; cat ./stress/out_al) | ./" + checker + " > ./stress/res").c_str()), checker);
+		check_status(system(("(cat ./in; printf \"\\n\"; cat ./stress/out_a) | ./" + checker + " > ./stress/res").c_str()), checker);
 		ifstream in_res("./stress/res"), in_a("./stress/out_a");
 		int res;
 		in_res >> res;
